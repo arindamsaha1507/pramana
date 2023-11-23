@@ -7,7 +7,7 @@ from reference import get_references, Reference
 def card(ref: Reference):
     """Helper function to display a card"""
     st.markdown(f"### {ref.title}")
-    st.markdown(f"- [Link]({ref.url}) {ref.author} ({ref.year})")
+    st.markdown(f"- [Link]({ref.url}) {ref.authors} ({ref.year})")
     if ref.abstract != "":
         with st.expander("Abstract", expanded=False):
             st.write(ref.abstract)
