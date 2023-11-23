@@ -29,6 +29,10 @@ st.markdown(
     and [Habanero](https://github.com/sckott/habanero) client.
 
     Simply enter a search query and click the button to extract references.
+    Click on the copy button on the top right of each box 
+    to copy the BibTeX citation to your clipboard.
+
+    Note: This app is still in development and may not work as expected. Any feedback is welcome!
     """
 )
 
