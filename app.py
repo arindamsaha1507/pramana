@@ -3,10 +3,10 @@
 import streamlit as st
 from reference import get_references  # Replace 'your_module' with the actual name of your module
 
-def card(title, author, year, citation):
+def card(title, author, year, url, citation):
     """Helper function to display a card"""
-    st.markdown(f"## {title}")
-    st.markdown(f"- {author} ({year})")
+    st.markdown(f"### {title}")
+    st.markdown(f"- [Link]({url}) {author} ({year})")
     st.markdown(f"```\n{citation}\n```")
 
 # Streamlit page configuration
@@ -31,7 +31,7 @@ if st.button("Extract References"):
             # Display each reference
             for ref in references:
                 ref.get_citation()
-                card(ref.title[0], ref.authors, ref.year, ref.citation)
+                card(ref.title[0], ref.authors, ref.year, ref.url, ref.citation)
 
         except Exception as e: # pylint: disable=broad-except
             st.error(f"An error occurred: {e}")

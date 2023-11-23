@@ -12,12 +12,13 @@ class Reference:
     doi: str
     authors: str = ""
     year: str = ""
+    url: str = ""
     citation: str = ""
 
     def __repr__(self):
         return f"{self.title} ({self.doi})"
 
-    def get_citation(self, typ: str = "bibentry"):
+    def get_citation(self, typ: str = "bibtex"):
         """Get citation from a reference"""
         string = cn.content_negotiation(ids=self.doi, format=typ)
         string = string.replace(", ", "\n")
@@ -30,6 +31,7 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
     # query
     results = cr.works(query=query, limit=limit)
+    print(results["message"]["items"][0]["link"])
     refs = []
     for result in results["message"]["items"]:
         if "author" in result:
@@ -44,12 +46,16 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
         else:
             year = ""
 
+        if "link" in result:
+            url = result["link"][0]["URL"]
+
         refs.append(
             Reference(
                 result["title"],
                 result["DOI"],
                 authors,
                 year,
+                url,
             )
         )
 
@@ -58,7 +64,7 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
 if __name__ == "__main__":
     papers = get_references("extreme events arindam saha")
-    print(papers)
+    print(papers[0])
 
     # for paper in papers:
     #     paper.get_citation()
