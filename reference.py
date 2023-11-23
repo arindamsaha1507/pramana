@@ -38,7 +38,7 @@ class Reference:
             print(self.abstract)
         except KeyError:
             self.abstract = ""
-            print("No abstract found")
+
 
 def remove_jats_tags(text):
     """Remove JATS tags from text"""
@@ -57,7 +57,6 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
     refs = []
     for result in results["message"]["items"]:
         if "author" in result:
-
             for author in result["author"]:
                 if "given" not in author:
                     author["given"] = ""
@@ -99,7 +98,3 @@ if __name__ == "__main__":
     print(papers[INDEX])
     papers[INDEX].get_abstract()
     print(papers[INDEX].abstract)
-
-    # for paper in papers:
-    #     paper.get_citation()
-    #     print(paper.citation)
