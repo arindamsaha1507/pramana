@@ -71,6 +71,8 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
         if "link" in result:
             url = result["link"][0]["URL"]
+        else:
+            url = ""
 
         refs.append(
             Reference(
@@ -86,7 +88,7 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
 
 if __name__ == "__main__":
-    papers = get_references("extreme events arindam saha")
+    papers = get_references("tree")
     INDEX = 3
     print(papers[INDEX])
     papers[INDEX].get_abstract()
