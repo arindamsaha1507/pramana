@@ -1,6 +1,11 @@
 """Module to extract reference from a query"""
 
+import re
+
 from dataclasses import dataclass
+
+import requests
+
 from habanero import Crossref, cn
 
 
@@ -14,6 +19,7 @@ class Reference:
     year: str = ""
     url: str = ""
     citation: str = ""
+    abstract: str = ""
 
     def __repr__(self):
         return f"{self.title} ({self.doi})"
@@ -24,6 +30,23 @@ class Reference:
         string = string.replace(", ", "\n")
         self.citation = string
 
+    def get_abstract(self):
+        """Get abstract from a reference"""
+        r = requests.get(f"https://api.crossref.org/works/{self.doi}", timeout=5)
+        try:
+            self.abstract = remove_jats_tags(r.json()["message"]["abstract"])
+            print(self.abstract)
+        except KeyError:
+            self.abstract = ""
+            # print(json.dumps(r.json(), indent=4))
+            print("No abstract found")
+
+def remove_jats_tags(text):
+    """Remove JATS tags from text"""
+    # This regular expression finds all instances of <jats:p> and </jats:p> and removes them
+    cleaned_text = re.sub(r"</?jats:p>", "", text)
+    return cleaned_text
+
 
 def get_references(query: str, limit: int = 20) -> list[Reference]:
     """Get references from a query"""
@@ -31,7 +54,7 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
     # query
     results = cr.works(query=query, limit=limit)
-    print(results["message"]["items"][0]["link"])
+    # print(results["message"]["items"][0]["link"])
     refs = []
     for result in results["message"]["items"]:
         if "author" in result:
@@ -64,7 +87,10 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
 if __name__ == "__main__":
     papers = get_references("extreme events arindam saha")
-    print(papers[0])
+    INDEX = 3
+    print(papers[INDEX])
+    papers[INDEX].get_abstract()
+    print(papers[INDEX].abstract)
 
     # for paper in papers:
     #     paper.get_citation()
