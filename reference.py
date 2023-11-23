@@ -82,7 +82,7 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
         refs.append(
             Reference(
-                result["title"],
+                result["title"][0],
                 result["DOI"],
                 authors,
                 year,
