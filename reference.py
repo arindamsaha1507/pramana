@@ -38,7 +38,6 @@ class Reference:
             print(self.abstract)
         except KeyError:
             self.abstract = ""
-            # print(json.dumps(r.json(), indent=4))
             print("No abstract found")
 
 def remove_jats_tags(text):
