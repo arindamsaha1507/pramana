@@ -58,6 +58,13 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
     refs = []
     for result in results["message"]["items"]:
         if "author" in result:
+
+            for author in result["author"]:
+                if "given" not in author:
+                    author["given"] = ""
+                if "family" not in author:
+                    author["family"] = ""
+
             authors = ", ".join(
                 [f"{author['given']} {author['family']}" for author in result["author"]]
             )
@@ -88,7 +95,7 @@ def get_references(query: str, limit: int = 20) -> list[Reference]:
 
 
 if __name__ == "__main__":
-    papers = get_references("tree")
+    papers = get_references("jayanta kumar saha")
     INDEX = 3
     print(papers[INDEX])
     papers[INDEX].get_abstract()
