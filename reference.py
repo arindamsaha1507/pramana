@@ -27,7 +27,7 @@ class Reference:
     def get_citation(self, typ: str = "bibtex"):
         """Get citation from a reference"""
         string = cn.content_negotiation(ids=self.doi, format=typ)
-        string = string.replace(", ", "\n")
+        string = string.replace(", ", ",\n")
         self.citation = string
 
     def get_abstract(self):
